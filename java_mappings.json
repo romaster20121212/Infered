@@ -1,0 +1,85 @@
+{
+  "java/lang/Iterable": {
+    "name": "java/lang/Iterable",
+    "methods": {
+      "iterator": {
+        "name": "iterator",
+        "signature": "()Ljava/util/Iterator;"
+      }
+    },
+    "fields": {}
+  },
+  "java/util/Iterator": {
+    "name": "java/util/Iterator",
+    "methods": {
+      "hasNext": {
+        "name": "hasNext",
+        "signature": "()Z"
+      },
+      "next": {
+        "name": "next",
+        "signature": "()Ljava/lang/Object;"
+      }
+    },
+    "fields": {}
+  },
+  "java/util/Map": {
+    "name": "java/util/Map",
+    "methods": {
+      "values": {
+        "name": "values",
+        "signature": "()Ljava/util/Collection;"
+      }
+    },
+    "fields": {}
+  },
+  "java/util/Optional": {
+    "name": "java/util/Optional",
+    "methods": {
+      "isPresent": {
+        "name": "isPresent",
+        "signature": "()Z"
+      },
+      "get": {
+        "name": "get",
+        "signature": "()Ljava/lang/Object;"
+      }
+    },
+    "fields": {}
+  },
+  "java/lang/Integer": {
+    "name": "java/lang/Integer",
+    "methods": {
+      "intValue": {
+        "name": "intValue",
+        "signature": "()I"
+      }
+    },
+    "fields": {}
+  },
+  "java/lang/Double": {
+    "name": "java/lang/Double",
+    "methods": {
+      "doubleValue": {
+        "name": "doubleValue",
+        "signature": "()D"
+      }
+    },
+    "fields": {}
+  },
+  "java/lang/Object": {
+    "name": "java/lang/Object",
+    "methods": {},
+    "fields": {}
+  },
+  "java/io/File": {
+    "name": "java/io/File",
+    "methods": {
+      "getAbsolutePath": {
+        "name": "getAbsolutePath",
+        "signature": "()Ljava/lang/String;"
+      }
+    },
+    "fields": {}
+  }
+}

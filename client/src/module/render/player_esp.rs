@@ -1,0 +1,91 @@
+use crate::module::{KeyboardKey, Module, ModuleCategory, ModuleData, ModuleId, ModuleSetting};
+
+ 
+ 
+pub const BOX_STYLES: [&str; 2] = ["Brackets", "Rounded"];
+
+ 
+ 
+ 
+ 
+ 
+ 
+#[derive(Debug)]
+pub struct PlayerEspModule {
+    pub module: ModuleData,
+}
+
+impl PlayerEspModule {
+    pub fn new() -> Self {
+        Self {
+            module: ModuleData {
+                id: ModuleId::PlayerEsp,
+                description: "Draws a clean box with corner brackets or a rounded animated \
+                              frame, a health bar and a name/distance label around other players"
+                    .to_string(),
+                category: ModuleCategory::Render,
+                key_bind: KeyboardKey::KeyNone,
+                enabled: false,
+                settings: vec![
+                    ModuleSetting::Color {
+                        name: "Color".to_string(),
+                        value: [1.0, 0.0, 0.0, 1.0],
+                    },
+                    ModuleSetting::Choice {
+                        name: "Style".to_string(),
+                        value: 0,
+                        options: BOX_STYLES.iter().map(|style| style.to_string()).collect(),
+                    },
+                    ModuleSetting::Toggle {
+                        name: "Animate".to_string(),
+                        value: true,
+                    },
+                    ModuleSetting::Toggle {
+                        name: "Glow".to_string(),
+                        value: true,
+                    },
+                    ModuleSetting::Toggle {
+                        name: "Name".to_string(),
+                        value: true,
+                    },
+                    ModuleSetting::Toggle {
+                        name: "Distance".to_string(),
+                        value: true,
+                    },
+                    ModuleSetting::Toggle {
+                        name: "Health".to_string(),
+                        value: true,
+                    },
+                    ModuleSetting::Slider {
+                        name: "Range".to_string(),
+                        value: 64.0,
+                        min: 16.0,
+                        max: 256.0,
+                    },
+                ],
+            },
+        }
+    }
+}
+
+impl Module for PlayerEspModule {
+    fn on_start(&self) -> anyhow::Result<()> {
+        Ok(())
+    }
+
+    fn on_stop(&self) -> anyhow::Result<()> {
+        Ok(())
+    }
+
+    fn on_tick(&self) -> anyhow::Result<()> {
+        Ok(())
+    }
+
+    fn get_module_data(&self) -> &ModuleData {
+        &self.module
+    }
+
+    fn get_module_data_mut(&mut self) -> &mut ModuleData {
+        &mut self.module
+    }
+}

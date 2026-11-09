@@ -1,0 +1,15 @@
+pub mod autojump;
+pub mod fakelag;
+pub mod fly;
+pub mod inventory_move;
+pub mod jump_reset;
+pub mod no_jump_delay;
+pub mod no_rotate;
+pub mod nofall;
+pub mod noslowdown;
+pub mod parkour;
+pub mod safewalk;
+pub mod sneak;
+pub mod speed;
+pub mod sprint;
+pub mod strafe;

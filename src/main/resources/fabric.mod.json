@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "infered",
+  "version": "${version}",
+  "name": "Infered",
+  "description": "A Minecraft mod client for 1.21.4 Fabric",
+  "authors": ["thefinalblow"],
+  "contact": {},
+  "license": "GPL-3.0-only",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "infered.infered.Infered"
+    ],
+    "client": [
+      "infered.infered.client.InferedClient"
+    ]
+  },
+  "mixins": [
+    "infered.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.4",
+    "java": ">=21"
+  }
+}

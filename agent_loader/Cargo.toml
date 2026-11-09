@@ -1,0 +1,29 @@
+[package]
+name = "agent_loader"
+version.workspace = true
+edition.workspace = true
+build = "build.rs"
+
+[lib]
+name = "agent_loader"
+crate-type = ["cdylib"]
+ 
+ 
+ 
+test = false
+
+[features]
+default = ["ctor/used_linker"]
+used_linker = []
+ 
+devtest = []
+
+[dependencies]
+ctor.workspace = true
+log.workspace = true
+jni.workspace = true
+libloading = "0.8.0"
+protocol = { path = "../protocol" }
+
+[target.'cfg(unix)'.dependencies]
+libc.workspace = true

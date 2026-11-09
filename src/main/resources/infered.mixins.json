@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "infered.infered.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "SplashOverlayMixin",
+    "LightmapTextureManagerMixin",
+    "ClientWorldMixin",
+    "EntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
