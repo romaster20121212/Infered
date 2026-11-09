@@ -12,6 +12,8 @@ Infered is a Minecraft **1.21.4 Fabric** client built around a native Rust core.
 >
 > It will **not** work on vanilla Minecraft, on other Minecraft versions, or on a Fabric profile that does not have Fabric API installed.
 
+> **NOTE: The Fabric mod version does not work.** The `src/main` mod source is included for reference/development only. Use the injector and native client described below.
+
 ## What it is
 
 The project builds three runtime pieces that work together:
@@ -24,7 +26,7 @@ The project builds three runtime pieces that work together:
 
 On Linux the same outputs are `injector`, `libagent_loader.so`, and `libclient.so`; on macOS they use `.dylib`.
 
-The repository also contains the source for a separate Fabric mod in `src/main`, plus the shared crates used by the native build.
+The repository also contains the source for a separate Fabric mod in `src/main`, plus the shared crates used by the native build. **The Fabric mod version does not work; only the injector/native client path is functional.**
 
 ## Requirements
 
@@ -138,13 +140,13 @@ logo's/            embedded client and injector artwork
 java_mappings.json, mappings*.json  bundled Minecraft mappings
 ```
 
-The Fabric mod source is separate from the native build. If you want to build that mod too, use the Gradle wrapper with JDK 21:
+The Fabric mod source is separate from the native build and **does not work in-game**. The Gradle build can still be run for development/reference with JDK 21:
 
 ```powershell
 .\gradlew build
 ```
 
-The jar is written to `build/libs/`. The native `cargo build --release` command does not build this jar.
+The jar is written to `build/libs/`, but it will not function as a client. Use the native `cargo build --release` output instead.
 
 ## License
 
