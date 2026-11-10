@@ -49,7 +49,6 @@ pub fn render_all(ctx: &Context) {
      
     settings::sync_with_menu(open);
     configs::sync_with_menu(open);
-    crate::graphic::clarity_menu::sync_with_menu(open);
 
      
      

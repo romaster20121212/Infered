@@ -144,7 +144,7 @@ pub fn draw(
 
      
      
-    if crate::graphic::menu_sidebar::is_sidebar() || crate::graphic::menu_sidebar::is_clarity() {
+    if crate::graphic::menu_sidebar::is_sidebar() {
         crate::graphic::menu_sidebar::draw(ctx, chrome, &entries, &registry);
         draw_addons_panel(ctx, chrome);
         return;

@@ -126,7 +126,7 @@ checksum = "512761e0bb2578dd7380c6baaa0f4ce03e84f95e960231d1dec8bf4d7d6e2627"
 
 [[package]]
 name = "agent_loader"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "ctor",
  "jni",
@@ -664,7 +664,7 @@ dependencies = [
 
 [[package]]
 name = "client"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cc",
@@ -1706,7 +1706,7 @@ dependencies = [
 
 [[package]]
 name = "infered_macros"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -1714,7 +1714,7 @@ dependencies = [
 
 [[package]]
 name = "injector"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "crossterm",
  "dll-syringe",
@@ -1961,7 +1961,7 @@ dependencies = [
 
 [[package]]
 name = "mapping_derive"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "quote",
  "syn 2.0.87",
@@ -2702,7 +2702,7 @@ dependencies = [
 
 [[package]]
 name = "protocol"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "log",
  "simplelog",
@@ -4502,7 +4502,7 @@ checksum = "af4e2e2f7cba5a093896c1e150fbfe177d1883e7448200efb81d40b9d339ef26"
 
 [[package]]
 name = "xtask"
-version = "0.1.0"
+version = "1.0.0"
 
 [[package]]
 name = "zbus"

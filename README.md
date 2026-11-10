@@ -1,6 +1,6 @@
-# Infered
+# Infered V1
 
-Infered is a Minecraft **1.21.4 Fabric** client built around a native Rust core. It is not a standalone game or a resource pack: the injector attaches the native client to an already-running Minecraft Java process.
+**Infered V1** is a Minecraft **1.21.4 Fabric** client built around a native Rust core. It is not a standalone game or a resource pack: the injector attaches the native client to an already-running Minecraft Java process.
 
 > **REQUIRES: Minecraft: Java Edition 1.21.4 with Fabric Loader and Fabric API installed.**
 >

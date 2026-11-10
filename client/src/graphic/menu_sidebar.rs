@@ -48,9 +48,6 @@ pub enum MenuStyle {
     Panels,
      
     Sidebar,
-     
-    #[serde(alias = "html")]
-    Clarity,
 }
 
  
@@ -58,7 +55,6 @@ pub enum MenuStyle {
 static STYLE: AtomicU8 = AtomicU8::new(STYLE_PANELS);
 const STYLE_PANELS: u8 = 0;
 const STYLE_SIDEBAR: u8 = 1;
-const STYLE_CLARITY: u8 = 2;
  
 static SELECTED: AtomicU8 = AtomicU8::new(0);
 
@@ -119,12 +115,6 @@ const WINDOW_RADIUS: f32 = 20.0;
 const SLAB_RADIUS: f32 = 15.0;
  
  
-const CLARITY_W: f32 = 1000.0;
-const CLARITY_H: f32 = 650.0;
-const CLARITY_SIDEBAR_W: f32 = 210.0;
-const CLARITY_CONTROL_R: f32 = 10.0;
-const CLARITY_NAV_H: f32 = 34.0;
-const CLARITY_NAV_GAP: f32 = 2.0;
 
  
  
@@ -172,7 +162,6 @@ impl Metrics {
 pub fn style() -> MenuStyle {
     match STYLE.load(Ordering::Relaxed) {
         STYLE_SIDEBAR => MenuStyle::Sidebar,
-        STYLE_CLARITY => MenuStyle::Clarity,
         _ => MenuStyle::Panels,
     }
 }
@@ -182,7 +171,6 @@ pub fn set_style(style: MenuStyle) {
     let raw = match style {
         MenuStyle::Panels => STYLE_PANELS,
         MenuStyle::Sidebar => STYLE_SIDEBAR,
-        MenuStyle::Clarity => STYLE_CLARITY,
     };
     STYLE.store(raw, Ordering::Relaxed);
 }
@@ -190,11 +178,6 @@ pub fn set_style(style: MenuStyle) {
  
 pub fn is_sidebar() -> bool {
     STYLE.load(Ordering::Relaxed) == STYLE_SIDEBAR
-}
-
- 
-pub fn is_clarity() -> bool {
-    STYLE.load(Ordering::Relaxed) == STYLE_CLARITY
 }
 
  
@@ -267,11 +250,6 @@ pub(crate) fn draw(
             }
             let (win, _) = ui.allocate_exact_size(vec2(width, height), Sense::hover());
 
-            if is_clarity() {
-                draw_clarity(ui, win, entries, registry, &mut query, progress, m);
-                return;
-            }
-
             paint_window(ui, win, progress, m);
 
             let header = Rect::from_min_size(win.min, vec2(win.width(), m.px(HEADER_H)));
@@ -322,288 +300,6 @@ pub(crate) fn draw(
     ctx.data_mut(|d| d.insert_temp(query_id, query));
 }
 
- 
- 
- 
- 
-fn draw_clarity(
-    ui: &mut Ui,
-    win: Rect,
-    entries: &[(ModuleId, ModuleCategory)],
-    registry: &ModuleMap,
-    query: &mut String,
-    progress: f32,
-    m: Metrics,
-) {
-    let k = Metrics {
-        scale: (win.width() / CLARITY_W)
-            .min(win.height() / CLARITY_H)
-            .clamp(MIN_SCALE, MAX_SCALE),
-        ..m
-    };
-    let at = |x: f32, y: f32| win.min + vec2(k.px(x), k.px(y));
-    let boxed =
-        |x: f32, y: f32, w: f32, h: f32| Rect::from_min_size(at(x, y), vec2(k.px(w), k.px(h)));
-    let round = Rounding::same(k.px(CLARITY_CONTROL_R));
-    let line = k.px(1.0).max(1.0);
-
-    paint_window(ui, win, progress, k);
-    let painter = ui.painter().clone();
-
-     
-     
-    painter.rect_filled(
-        boxed(0.0, 0.0, CLARITY_SIDEBAR_W, CLARITY_H),
-        Rounding::same(k.px(WINDOW_RADIUS)),
-        theme::with_alpha(Color32::BLACK, 0.18),
-    );
-    painter.line_segment(
-        [
-            at(CLARITY_SIDEBAR_W, 18.0),
-            at(CLARITY_SIDEBAR_W, CLARITY_H - 18.0),
-        ],
-        Stroke::new(line, theme::with_alpha(theme::BORDER, 0.6)),
-    );
-
-     
-    let logo_box = boxed(10.5, 18.0, 38.0, 38.0);
-    match branding::menu_logo_texture(ui.ctx()) {
-        Some(logo) => {
-            ambience::halo(
-                &painter,
-                logo_box.center(),
-                k.px(22.0),
-                theme::accent(),
-                0.2,
-            );
-            let size = logo.size_vec2();
-            let fit = (logo_box.width() / size.x).min(logo_box.height() / size.y);
-            painter.image(
-                logo.id(),
-                Rect::from_center_size(logo_box.center(), size * fit),
-                Rect::from_min_max(Pos2::ZERO, pos2(1.0, 1.0)),
-                theme::accent(),
-            );
-        }
-        None => {
-            painter.text(
-                at(20.0, 47.0),
-                Align2::LEFT_BOTTOM,
-                "C",
-                FontId::proportional(k.px(22.0)),
-                theme::accent(),
-            );
-        }
-    }
-    painter.text(
-        at(42.35, 47.0),
-        Align2::LEFT_BOTTOM,
-        "larity",
-        FontId::proportional(k.px(22.0)),
-        theme::TEXT,
-    );
-
-     
-    let field = boxed(16.0, 70.0, 178.0, 32.0);
-    painter.rect_filled(
-        field,
-        round,
-        theme::with_alpha(theme::lerp_color(theme::SURFACE, theme::TEXT, 0.04), 0.7),
-    );
-    let edit = ui.put(
-        Rect::from_min_max(
-            field.min + vec2(k.px(14.0), 0.0),
-            field.max - vec2(k.px(32.0), 0.0),
-        ),
-        egui::TextEdit::singleline(query)
-            .id(Id::new("menu_sidebar_clarity_search"))
-            .frame(false)
-            .hint_text("Search modules…")
-            .font(FontId::proportional(k.px(12.5)))
-            .text_color(theme::TEXT)
-            .desired_width(field.width() - k.px(22.0)),
-    );
-    if ui.put(
-        Rect::from_min_size(pos2(field.right() - k.px(28.0), field.top()), vec2(k.px(28.0), field.height())),
-        egui::Button::new("★"),
-    ).on_hover_text("Show favorites").clicked() {
-        *query = "*".into();
-    }
-    let focus = anim::toggle(
-        ui.ctx(),
-        Id::new("menu_sidebar_clarity_search_focus"),
-        edit.has_focus(),
-        0.14,
-        Easing::Out,
-    );
-    painter.rect_stroke(
-        field,
-        round,
-        Stroke::new(
-            line,
-            theme::lerp_color(
-                theme::with_alpha(theme::BORDER, 0.8),
-                theme::accent(),
-                focus,
-            ),
-        ),
-    );
-
-     
-     
-    painter.text(
-        at(22.0, 124.0),
-        Align2::LEFT_BOTTOM,
-        "MODULES",
-        FontId::proportional(k.px(9.5)),
-        theme::with_alpha(theme::TEXT_MUTED, 0.8),
-    );
-    let row_top = |index: usize| 136.0 + index as f32 * (CLARITY_NAV_H + CLARITY_NAV_GAP);
-    let current = selected();
-    if query.trim().is_empty() {
-        let pill_y = anim::spring(
-            ui.ctx(),
-            Id::new("menu_sidebar_clarity_pill"),
-            at(12.0, row_top(current)).y,
-            SpringCfg::PANEL,
-        );
-        let pill = Rect::from_min_size(
-            pos2(win.left() + k.px(12.0), pill_y),
-            vec2(k.px(CLARITY_SIDEBAR_W - 24.0), k.px(CLARITY_NAV_H)),
-        );
-        painter.rect_filled(pill, round, theme::with_alpha(theme::accent(), 0.26));
-        painter.rect_stroke(
-            pill,
-            round,
-            Stroke::new(line, theme::with_alpha(theme::accent(), 0.35)),
-        );
-    }
-
-    let mut clicked = None;
-    for (index, category) in CATEGORIES.iter().enumerate() {
-        let y = row_top(index);
-        let row = boxed(12.0, y, CLARITY_SIDEBAR_W - 24.0, CLARITY_NAV_H);
-        let id = Id::new("menu_sidebar_clarity_nav").with(index);
-        let response = ui.interact(row, id, Sense::click());
-        let active = query.trim().is_empty() && index == current;
-        let hover = anim::toggle(
-            ui.ctx(),
-            id.with("hover"),
-            response.hovered() && !active,
-            0.16,
-            Easing::Out,
-        );
-        if hover > 0.01 {
-            painter.rect_filled(row, round, theme::with_alpha(theme::TEXT, 0.05 * hover));
-        }
-        let ink = if active {
-            theme::TEXT
-        } else {
-            theme::lerp_color(theme::TEXT_MUTED, theme::TEXT, hover * 0.7)
-        };
-        let glyph = if active { theme::accent() } else { ink };
-        menu::paint_category_glyph_scaled(
-            &painter,
-            at(34.0, y + CLARITY_NAV_H / 2.0),
-            *category,
-            glyph,
-            k.scale,
-        );
-        painter.text(
-            at(52.0, y + CLARITY_NAV_H / 2.0),
-            Align2::LEFT_CENTER,
-            category.display_name(),
-            FontId::proportional(k.px(13.0)),
-            ink,
-        );
-        if response.clicked() {
-            clicked = Some(index);
-        }
-    }
-     
-    if let Some(index) = clicked {
-        set_selected(index);
-        query.clear();
-    }
-    let current = selected();
-    let searching = !query.trim().is_empty();
-
-     
-    let title_x = CLARITY_SIDEBAR_W + 28.0;
-    let needle = query.trim().to_lowercase();
-    let items: Vec<(ModuleId, ModuleCategory)> = if searching {
-        entries
-            .iter()
-            .filter(|(id, _)| menu::search_matches(&needle, id.display_name()) || (needle == "*" && crate::config::is_favorite(*id)))
-            .copied()
-            .collect()
-    } else {
-        entries
-            .iter()
-            .filter(|(_, category)| *category == CATEGORIES[current])
-            .copied()
-            .collect()
-    };
-    let top = if searching {
-        painter.text(
-            at(title_x, 38.0),
-            Align2::LEFT_BOTTOM,
-            "Search",
-            FontId::proportional(k.px(24.0)),
-            theme::TEXT,
-        );
-        let detail = format!(
-            "{} result{} for “{}”",
-            items.len(),
-            if items.len() == 1 { "" } else { "s" },
-            query.trim()
-        );
-        painter.text(
-            at(title_x, 62.0),
-            Align2::LEFT_BOTTOM,
-            detail,
-            FontId::proportional(k.px(12.0)),
-            theme::TEXT_MUTED,
-        );
-        84.0
-    } else {
-        painter.text(
-            at(title_x, 44.0),
-            Align2::LEFT_BOTTOM,
-            CATEGORIES[current].display_name(),
-            FontId::proportional(k.px(24.0)),
-            theme::TEXT,
-        );
-        72.0
-    };
-
-     
-    let list = boxed(
-        CLARITY_SIDEBAR_W + 22.0,
-        top,
-        CLARITY_W - CLARITY_SIDEBAR_W - 50.0,
-        CLARITY_H - top - 12.0,
-    );
-    ui.allocate_new_ui(
-        UiBuilder::new()
-            .max_rect(list)
-            .layout(Layout::top_down(Align::Min)),
-        |ui| {
-            draw_results(
-                ui,
-                list.height(),
-                &items,
-                registry,
-                current,
-                searching.then_some(needle.as_str()),
-                k,
-            );
-        },
-    );
-}
-
- 
- 
 fn paint_window(ui: &Ui, win: Rect, progress: f32, m: Metrics) {
     let painter = ui.painter();
     let rounding = Rounding::same(m.px(WINDOW_RADIUS));
@@ -1590,45 +1286,6 @@ mod tests {
         assert!(
             behind > resting + 4.0,
             "the window sinks behind the modal: {resting} -> {behind}"
-        );
-    }
-
-     
-     
-     
-     
-     
-    #[test]
-    fn the_clarity_layout_shows_the_nav_title_and_selected_modules() {
-        let _guard = globals();
-        let (entries, map) = test_world();
-        let ctx = Context::default();
-        set_style(MenuStyle::Clarity);
-        set_selected(0);
-        let drawn = draw_and_collect(&ctx, &entries, &map, 30);
-        set_style(MenuStyle::Panels);
-
-        assert!(
-            drawn.iter().any(|text| text == "MODULES"),
-            "the MODULES nav caption is drawn: {drawn:?}"
-        );
-        assert!(
-            drawn
-                .iter()
-                .any(|text| text == CATEGORIES[0].display_name()),
-            "the selected category is the title: {drawn:?}"
-        );
-        assert!(
-            drawn
-                .iter()
-                .any(|text| text == ModuleId::KillAura.display_name()),
-            "the selected category's modules are listed: {drawn:?}"
-        );
-        assert!(
-            !drawn
-                .iter()
-                .any(|text| text == ModuleId::Sprint.display_name()),
-            "modules from other categories stay out: {drawn:?}"
         );
     }
 

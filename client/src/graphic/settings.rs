@@ -396,15 +396,15 @@ fn colour_swatch(ui: &mut Ui, rgb: &mut [u8; 3]) -> egui::Response {
 fn layout_switch(ui: &mut Ui, id: Id, style: &mut crate::graphic::menu_sidebar::MenuStyle) -> bool {
     use crate::graphic::menu_sidebar::MenuStyle;
 
-    const ORDER: [MenuStyle; 3] = [MenuStyle::Panels, MenuStyle::Sidebar, MenuStyle::Clarity];
-    const LABELS: [&str; 3] = ["Panels", "Sidebar", "Clarity"];
+    const ORDER: [MenuStyle; 2] = [MenuStyle::Panels, MenuStyle::Sidebar];
+    const LABELS: [&str; 2] = ["Panels", "Sidebar"];
 
     let (rect, response) = ui.allocate_exact_size(Vec2::new(204.0, 22.0), Sense::click());
     let mut changed = false;
     if response.clicked() {
         if let Some(pointer) = response.interact_pointer_pos() {
             let segment =
-                ((pointer.x - rect.left()) / rect.width() * 3.0).clamp(0.0, 2.999) as usize;
+                ((pointer.x - rect.left()) / rect.width() * 2.0).clamp(0.0, 1.999) as usize;
             let next = ORDER[segment];
             if next != *style {
                 *style = next;
@@ -417,14 +417,7 @@ fn layout_switch(ui: &mut Ui, id: Id, style: &mut crate::graphic::menu_sidebar::
      
      
     let at_sidebar = anim::toggle(ui.ctx(), id, selected == 1, 0.20, Easing::InOut);
-    let at_clarity = anim::toggle(
-        ui.ctx(),
-        id.with("clarity"),
-        selected == 2,
-        0.20,
-        Easing::InOut,
-    );
-    let slide = at_sidebar + 2.0 * at_clarity;
+    let slide = at_sidebar;
     let hover = anim::toggle(
         ui.ctx(),
         id.with("hover"),
@@ -434,7 +427,7 @@ fn layout_switch(ui: &mut Ui, id: Id, style: &mut crate::graphic::menu_sidebar::
     );
 
     let inner = rect.shrink(2.0);
-    let segment = inner.width() / 3.0;
+    let segment = inner.width() / 2.0;
     let thumb = Rect::from_min_size(
         Pos2::new(inner.left() + segment * slide, inner.top()),
         Vec2::new(segment, inner.height()),

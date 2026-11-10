@@ -17,7 +17,6 @@ pub(crate) mod chams_video;
 pub(crate) mod chams_warped;
 pub(crate) mod chams_warped_render;
 mod chams_warped_shader;
-pub mod clarity_menu;
 pub(crate) mod clock;
 pub(crate) mod compass;
 pub mod configs;

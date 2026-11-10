@@ -70,7 +70,7 @@ fn generate_vanilla_textures() {
     }
     if entries.is_empty() {
         panic!(
-            "build.rs: no vanilla textures under {} — restore the bundled item/block texture assets",
+            "build.rs: no vanilla textures under {} — run `py client/tools/extract_vanilla_icons.py`",
             root.display()
         );
     }
