@@ -148,6 +148,12 @@ The Fabric mod source is separate from the native build and **does not work in-g
 
 The jar is written to `build/libs/`, but it will not function as a client. Use the native `cargo build --release` output instead.
 
+## Copyright and permission
+
+Copyright © 2026 TheFinalBlow.
+
+> **COPYRIGHT NOTICE:** The Infered source code may not be copied, reproduced, or redistributed without permission. Permission to use, copy, modify, and redistribute this source code is granted only under the terms of the GNU General Public License v3.0.
+
 ## License
 
 Infered is released under the GNU General Public License v3.0 (GPL-3.0-only). See [LICENSE](LICENSE). Third-party components keep their own licenses:
