@@ -1,10 +1,10 @@
 # Infered V1
 
+> **EDUCATIONAL PURPOSES ONLY.** Infered V1 is provided strictly for educational use. It is **not** intended for use on public multiplayer servers, and using it may violate game terms of service and server rules. **The owner is not responsible for any banned accounts, suspensions, or any other consequences caused by use of this menu, its source code, or its binaries. Use at your own risk.**
+
 **Infered V1** is a Minecraft **1.21.4 Fabric** client built around a native Rust core. It is not a standalone game or a resource pack: the injector attaches the native client to an already-running Minecraft Java process.
 
 > **REQUIRES: Minecraft: Java Edition 1.21.4 with Fabric Loader and Fabric API installed.**
->
-> ## Required game setup
 >
 > - Minecraft: Java Edition **1.21.4**
 > - **Fabric Loader** for 1.21.4
@@ -12,7 +12,7 @@
 >
 > It will **not** work on vanilla Minecraft, on other Minecraft versions, or on a Fabric profile that does not have Fabric API installed.
 
-> **NOTE: The Fabric mod version does not work.** The `src/main` mod source is included for reference/development only. Use the injector and native client described below.
+> **NOTE: The Fabric mod version does not work.** The `src/main` mod source is included for reference/development only. Use the injector and native client described below. **The jar is written to `build/libs/`, but it will not function as a client.**
 
 ## What it is
 
@@ -39,7 +39,7 @@ The repository also contains the source for a separate Fabric mod in `src/main`,
 
 ### To build
 
-- A recent Rust toolchain and Cargo (Rust 1.85 or newer). The project has been built with nightly; stable should work as long as it supports edition 2024.
+- A recent Rust toolchain and Cargo (Rust 1.85 or newer). The project has been built with nightly; stable should work as long as it supports edition 2021.
 - **JDK 21**, not just a JRE. The build compiles the Java bridge classes and the JVMTI C shim, so `javac` and the JNI headers are required. Set `JAVA_HOME` to the JDK root.
 - A C/C++ linker:
   - Windows: Visual Studio Build Tools with the "Desktop development with C++" workload (MSVC).
@@ -140,19 +140,13 @@ logo's/            embedded client and injector artwork
 java_mappings.json, mappings*.json  bundled Minecraft mappings
 ```
 
-The Fabric mod source is separate from the native build and **does not work in-game**. The Gradle build can still be run for development/reference with JDK 21:
-
-```powershell
-.\gradlew build
-```
-
-The jar is written to `build/libs/`, but it will not function as a client. Use the native `cargo build --release` output instead.
-
 ## Copyright and permission
 
 Copyright © 2026 TheFinalBlow.
 
 > **COPYRIGHT NOTICE:** The Infered source code may not be copied, reproduced, or redistributed without permission. Permission to use, copy, modify, and redistribute this source code is granted only under the terms of the GNU General Public License v3.0.
+
+> **EDUCATIONAL DISCLAIMER:** This software is for educational purposes only. It is not intended for use on public multiplayer servers. The owner is not responsible for any banned accounts, suspensions, or any consequences caused by use of this menu or its source code.
 
 ## License
 
