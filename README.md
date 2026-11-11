@@ -33,7 +33,7 @@ The repository also contains the source for a separate Fabric mod in `src/main`,
 ### To run
 
 - Windows 10/11 x64 is the primary supported platform. Linux support is included in the source; macOS support is experimental.
-- Minecraft Java Edition 1.21.4 with Fabric Loader and Fabric API (see above). The bundled Fabric mod metadata is tested against Fabric Loader 0.16.10 and Fabric API 0.119.4+1.21.4.
+- Minecraft Java Edition **1.21.4** with **Fabric Loader** and **Fabric API** (see above). **Fabric API is required** — the client will not load without it. The bundled Fabric mod metadata is tested against Fabric Loader 0.16.10 and Fabric API 0.119.4+1.21.4.
 - A 64-bit Java 21 runtime, which is what Minecraft 1.21.4 and Fabric require anyway.
 - Administrator privileges on Windows, or root on Linux, to inject into another process.
 
